@@ -1,0 +1,56 @@
+---
+// Equipos: vitrina de tarjetas. `equipos: [{nombre, texto, categoria, precio, imagen, caracteristicas}]`. En escritorio,
+// el primero grande (7 columnas, foto de toda la altura) y los tres siguientes apaisados a su lado (foto a la
+// izquierda); a partir del quinto, de tres en tres. Cada tarjeta: la foto de borde a borde, la `categoria` en letra
+// menuda, el nombre en Syne con el precio en monoespaciada, el texto y las `caracteristicas` (separadas por «;») en
+// filas con filetes. Debajo, `cta`. Sin equipos, solo la cabeza.
+import { seccion, partes } from '../../data/site';
+import Titular from '../ui/Titular.astro';
+import Imagen from '../ui/Imagen.astro';
+interface Props { id: string }
+const { id } = Astro.props;
+const s = seccion(id);
+const equipos = s ? s.equipos : [];
+const filas = Math.max(1, Math.min(3, equipos.length - 1));
+---
+
+{
+  s && (
+    <section id={id} class="banda banda--papel">
+      <div class="contenedor">
+        <Titular cabeza antetitulo={s.antetitulo} titulo={s.titulo} texto={s.texto} />
+        {equipos.length > 0 && (
+          <ul class:list={['vitrina', `vitrina--${equipos.length}`]} style={`--filas:${filas}`}>
+            {equipos.map((e, i) => (
+              <li class="carta equipo">
+                {e.imagen && (
+                  <div class="foto equipo-foto">
+                    <Imagen src={e.imagen} alt={e.nombre} ancho={i === 0 ? 1200 : 800} alto={i === 0 ? 900 : 800} />
+                  </div>
+                )}
+                <div class="equipo-cuerpo">
+                  {e.categoria && <p class="menuda">{e.categoria}</p>}
+                  <div class="equipo-linea">
+                    <h3>{e.nombre}</h3>
+                    {e.precio && <span class="equipo-precio codigo">{e.precio}</span>}
+                  </div>
+                  {e.texto && <p class="equipo-texto">{e.texto}</p>}
+                  {partes(e.caracteristicas).length > 0 && (
+                    <ul class="equipo-datos">
+                      {partes(e.caracteristicas).map((x) => <li>{x}</li>)}
+                    </ul>
+                  )}
+                </div>
+              </li>
+            ))}
+          </ul>
+        )}
+        {s.cta?.url && (
+          <div class="bloque-pie">
+            <a class="btn-sec" href={s.cta.url}>{s.cta.texto}</a>
+          </div>
+        )}
+      </div>
+    </section>
+  )
+}

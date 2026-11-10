@@ -1,0 +1,28 @@
+---
+// Página no encontrada con el diseño de la tienda: «404» enorme en Syne y, al lado, el titular, una frase y los
+// botones de volver y llamar, sobre papel.
+import Base from '../layouts/Base.astro';
+import { site, tel } from '../data/site';
+const telefono = site.contacto.telefono;
+---
+
+<Base titulo="Página no encontrada">
+  <section class="banda banda--papel">
+    <div class="contenedor partida partida--texto-primero error-rejilla">
+      <div class="titular">
+        <p class="antetitulo">Error 404</p>
+        <h1 class="titulo-seccion">Esta página no está en la tienda</h1>
+        <p class="entrada">Puede que el enlace esté mal o que la página se haya movido. Vuelve al inicio o llámanos.</p>
+        <div class="botones">
+          <a class="btn" href="/">Volver al inicio</a>
+          {telefono && <a class="btn-sec" href={tel(telefono)}>Llamar al {telefono}</a>}
+        </div>
+      </div>
+      <p class="error-cifra" aria-hidden="true">404</p>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .error-rejilla { min-height: 60svh; }
+</style>

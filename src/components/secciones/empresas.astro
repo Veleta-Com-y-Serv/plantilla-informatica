@@ -1,0 +1,83 @@
+---
+// Empresas: banda de tinta (color primario) a todo el ancho. Cabeza partida; los `planes: [{nombre, precio, periodo,
+// texto, incluye, destacado}]` en tarjetas blancas con borde de tinta y sombra dura (precio grande en Syne, `periodo`
+// en monoespaciada, `incluye` separado por «;» como lista con filetes y un botón que abre WhatsApp con el plan o va al
+// contacto); el `destacado` lleva la marca «Recomendado» y el botón lleno. Debajo, `items: [{titulo, texto, icono}]`
+// (lo que se cuida: redes, copias, antivirus…) en tres columnas con filetes, y al pie `nota` y `cta`.
+// Sin planes, solo los servicios; sin nada, solo la cabeza.
+import { seccion, site, whatsapp, partes } from '../../data/site';
+import { enlace } from '../../lib/multipagina';
+import Titular from '../ui/Titular.astro';
+import Icono from '../ui/Icono.astro';
+interface Props { id: string }
+const { id } = Astro.props;
+const s = seccion(id);
+const planes = s ? s.planes : [];
+const servicios = s ? s.items.filter((it) => it.titulo) : [];
+const c = site.contacto;
+const pedir = (nombre: string) =>
+  c.whatsapp
+    ? { url: whatsapp(c.whatsapp, `Hola, me interesa el mantenimiento «${nombre}» de ${site.nombre}`), fuera: true }
+    : { url: s?.cta?.url || enlace('/#contacto'), fuera: false };
+---
+
+{
+  s && (
+    <section id={id} class="banda banda--tinta">
+      <div class="contenedor">
+        <Titular cabeza antetitulo={s.antetitulo} titulo={s.titulo} texto={s.texto} />
+        {planes.length > 0 && (
+          <ul class="planes">
+            {planes.map((p) => {
+              const destino = pedir(p.nombre);
+              return (
+                <li class="carta plan">
+                  <div class="plan-cabeza">
+                    <h3>{p.nombre}</h3>
+                    {p.destacado && <span class="plan-marca">Recomendado</span>}
+                  </div>
+                  {p.precio && (
+                    <p class="plan-precio">
+                      <span class="plan-cifra">{p.precio}</span>
+                      {p.periodo && <span class="plan-periodo codigo">{p.periodo}</span>}
+                    </p>
+                  )}
+                  {p.texto && <p class="plan-texto">{p.texto}</p>}
+                  {partes(p.incluye).length > 0 && (
+                    <ul class="plan-incluye">
+                      {partes(p.incluye).map((x) => (
+                        <li><Icono nombre="check" tam={16} />{x}</li>
+                      ))}
+                    </ul>
+                  )}
+                  <div class="botones">
+                    <a class={p.destacado ? 'btn' : 'btn-sec'} href={destino.url} {...(destino.fuera && { rel: 'noopener', target: '_blank' })}>
+                      Pedir información
+                    </a>
+                  </div>
+                </li>
+              );
+            })}
+          </ul>
+        )}
+        {servicios.length > 0 && (
+          <ul class="servicios">
+            {servicios.map((it) => (
+              <li>
+                <Icono nombre={it.icono} tam={24} />
+                <span class="servicios-titulo">{it.titulo}</span>
+                {it.texto && <span class="servicios-texto">{it.texto}</span>}
+              </li>
+            ))}
+          </ul>
+        )}
+        {(s.nota || s.cta?.url) && (
+          <div class="banda-pie">
+            {s.nota && <p class="nota">{s.nota}</p>}
+            {s.cta?.url && <a class="btn" href={s.cta.url}>{s.cta.texto}</a>}
+          </div>
+        )}
+      </div>
+    </section>
+  )
+}

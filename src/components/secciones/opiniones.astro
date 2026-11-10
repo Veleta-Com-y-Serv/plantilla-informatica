@@ -1,0 +1,34 @@
+---
+// Opiniones: `testimonios: [{texto, autor, nota}]` en columnas que cuelgan de un filete de tinta de 2 px; la primera,
+// más ancha y en Onest 500 a tamaño de entrada. `nota` (qué se arregló y dónde) en letra menuda bajo el autor.
+// Sin testimonios no se pinta. No inventes opiniones: la plataforma deja este apartado desmarcado hasta que hay reales.
+import { seccion } from '../../data/site';
+import Titular from '../ui/Titular.astro';
+interface Props { id: string }
+const { id } = Astro.props;
+const s = seccion(id);
+const opiniones = s ? s.testimonios : [];
+---
+
+{
+  s && opiniones.length > 0 && (
+    <section id={id} class="banda banda--papel">
+      <div class="contenedor">
+        <Titular cabeza antetitulo={s.antetitulo} titulo={s.titulo} texto={s.texto} />
+        <ul class:list={['opiniones', { 'opiniones--1': opiniones.length === 1 }]}>
+          {opiniones.map((o) => (
+            <li>
+              <blockquote class="opinion-texto"><p>{o.texto}</p></blockquote>
+              {(o.autor || o.nota) && (
+                <p class="opinion-autor">
+                  {o.autor}
+                  {o.nota && <span>{o.nota}</span>}
+                </p>
+              )}
+            </li>
+          ))}
+        </ul>
+      </div>
+    </section>
+  )
+}

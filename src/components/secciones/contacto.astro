@@ -1,0 +1,88 @@
+---
+// Contacto: cabeza partida y, debajo, dos columnas. A la izquierda (5), las vías de site.yaml → contacto en filas con
+// filetes (el teléfono grande en Syne, WhatsApp, email, dirección con enlace al mapa y horario) y la `imagen` (la
+// tienda) en una tarjeta. A la derecha (7), el formulario de presupuesto en una tarjeta blanca con borde de tinta y
+// sombra dura: `titulo_formulario` y `boton_formulario` (opcionales). El formulario pregunta el aparato (los `equipo`
+// de las reparaciones) y qué le pasa (sus nombres); sin reparaciones, son campos libres.
+import { seccion, site, tel, whatsapp, mapa, texto } from '../../data/site';
+import { altSeccion } from '../../lib/seo';
+import Titular from '../ui/Titular.astro';
+import Imagen from '../ui/Imagen.astro';
+import FormularioContacto from '../ui/FormularioContacto.astro';
+interface Props { id: string }
+const { id } = Astro.props;
+const s = seccion(id);
+const c = site.contacto;
+const tituloForm = texto(s?.titulo_formulario) || 'Cuéntanos qué le pasa';
+const botonForm = texto(s?.boton_formulario) || 'Pedir presupuesto';
+const conVias = !!(c.telefono || c.whatsapp || c.email || c.direccion || c.horario || s?.imagen);
+---
+
+{
+  s && (
+    <section id={id} class="banda banda--papel">
+      <div class="contenedor">
+        <Titular cabeza antetitulo={s.antetitulo} titulo={s.titulo} texto={s.texto} />
+        <div class:list={['contacto-rejilla', { 'contacto-rejilla--solo': !conVias }]}>
+          {conVias && <div>
+            {(c.telefono || c.whatsapp || c.email || c.direccion || c.horario) && (
+              <ul class="vias">
+                {c.telefono && (
+                  <li>
+                    <a class="via via--tel" href={tel(c.telefono)}>
+                      <span class="via-etiqueta">Teléfono</span>
+                      <span class="via-dato">{c.telefono}</span>
+                    </a>
+                  </li>
+                )}
+                {c.whatsapp && (
+                  <li>
+                    <a class="via" href={whatsapp(c.whatsapp)} rel="noopener" target="_blank">
+                      <span class="via-etiqueta">WhatsApp</span>
+                      <span class="via-dato codigo">{c.whatsapp}</span>
+                    </a>
+                  </li>
+                )}
+                {c.email && (
+                  <li>
+                    <a class="via" href={`mailto:${c.email}`}>
+                      <span class="via-etiqueta">Email</span>
+                      <span class="via-dato">{c.email}</span>
+                    </a>
+                  </li>
+                )}
+                {c.direccion && (
+                  <li>
+                    <a class="via" href={mapa(c.direccion)} rel="noopener" target="_blank">
+                      <span class="via-etiqueta">Dirección</span>
+                      <span class="via-dato">{c.direccion}</span>
+                    </a>
+                  </li>
+                )}
+                {c.horario && (
+                  <li>
+                    <p class="via">
+                      <span class="via-etiqueta">Horario</span>
+                      <span class="via-dato">{c.horario}</span>
+                    </p>
+                  </li>
+                )}
+              </ul>
+            )}
+            {s.imagen && (
+              <figure class="carta muestra contacto-foto">
+                <div class="foto">
+                  <Imagen src={s.imagen} alt={altSeccion(s)} ancho={1000} alto={750} />
+                </div>
+              </figure>
+            )}
+          </div>}
+          <div class="carta formulario-carta">
+            <h3>{tituloForm}</h3>
+            <FormularioContacto modelo="presupuesto" prefijo={`${id}-f`} boton={botonForm} />
+          </div>
+        </div>
+      </div>
+    </section>
+  )
+}

@@ -1,0 +1,32 @@
+---
+// Cómo trabajamos: banda de papel algo más oscuro, con filetes de tinta arriba y abajo. Cabeza partida y los pasos
+// (`items: [{titulo, texto}]`) como una lista ordenada de verdad: cada paso cuelga de un filete de 2 px, con su número
+// en Syne al tamaño de los títulos, el nombre en Onest 500 y una línea. Sin pasos, solo la cabeza.
+import { seccion } from '../../data/site';
+import Titular from '../ui/Titular.astro';
+interface Props { id: string }
+const { id } = Astro.props;
+const s = seccion(id);
+const pasos = s ? s.items.filter((it) => it.titulo) : [];
+---
+
+{
+  s && (
+    <section id={id} class="banda banda--clara">
+      <div class="contenedor">
+        <Titular cabeza antetitulo={s.antetitulo} titulo={s.titulo} texto={s.texto} />
+        {pasos.length > 0 && (
+          <ol class="pasos" style={`--n:${Math.min(pasos.length, 4)}`}>
+            {pasos.map((p) => (
+              <li>
+                <p class="pasos-titulo">{p.titulo}</p>
+                {p.texto && <p class="pasos-texto">{p.texto}</p>}
+              </li>
+            ))}
+          </ol>
+        )}
+        {s.cta?.url && <div class="botones"><a class="btn-sec" href={s.cta.url}>{s.cta.texto}</a></div>}
+      </div>
+    </section>
+  )
+}

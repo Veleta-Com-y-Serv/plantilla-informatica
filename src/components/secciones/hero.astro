@@ -1,0 +1,79 @@
+---
+// Portada «Showcase»: arriba, el antetítulo en letra menuda y el titular en Syne en ocho columnas; a su lado, una frase
+// y los dos botones (tinta llena + contorno). Debajo, la foto (`imagen`) en una tarjeta a todo el contenedor (21:9 en
+// escritorio) con su pie: `pie_foto` a la izquierda y los `items` (solo `titulo`: datos cortos) a la derecha,
+// separados por filetes. Sin `imagen`, la portada es solo texto. Sin `cta`, el primer botón llama; sin
+// `cta_secundario`, lleva al contacto. La foto nunca lleva texto encima.
+import { seccion, site, tel, externo } from '../../data/site';
+import { altHero } from '../../lib/seo';
+import { enlace } from '../../lib/multipagina';
+import Imagen from '../ui/Imagen.astro';
+interface Props { id: string; primera?: boolean }
+const { id, primera = false } = Astro.props;
+const s = seccion(id);
+const c = site.contacto;
+const principal = s?.cta?.url ? s.cta : c.telefono ? { texto: `Llamar al ${c.telefono}`, url: tel(c.telefono) } : null;
+const secundario = s?.cta_secundario?.url
+  ? s.cta_secundario
+  : seccion('contacto') && principal?.url !== enlace('/#contacto')
+    ? { texto: 'Pedir presupuesto', url: enlace('/#contacto') }
+    : null;
+const datos = (s?.items ?? []).map((it) => String(it?.titulo ?? '').trim()).filter(Boolean);
+---
+
+{
+  s && (
+    <section id={id} class="portada">
+      <div class="contenedor">
+        <div class="portada-cabeza">
+          <div class="portada-titular">
+            {s.antetitulo && <p class="antetitulo">{s.antetitulo}</p>}
+            <h1 class="portada-titulo">{s.titulo || site.nombre}</h1>
+          </div>
+          {(s.texto || principal || secundario) && (
+            <div class="portada-lado">
+              {s.texto && <p class="portada-parrafo">{s.texto}</p>}
+              {(principal || secundario) && (
+                <div class="botones">
+                  {principal && (
+                    <a class="btn" href={principal.url} {...(externo(principal.url) && { rel: 'noopener', target: '_blank' })}>
+                      {principal.texto}
+                    </a>
+                  )}
+                  {secundario && (
+                    <a class="btn-sec" href={secundario.url} {...(externo(secundario.url) && { rel: 'noopener', target: '_blank' })}>
+                      {secundario.texto}
+                    </a>
+                  )}
+                </div>
+              )}
+            </div>
+          )}
+        </div>
+        {s.imagen ? (
+          <figure class="carta muestra portada-muestra">
+            <div class="foto">
+              <Imagen src={s.imagen} alt={altHero()} ancho={1600} alto={686} prioridad={primera} />
+            </div>
+            {(s.pie_foto || datos.length > 0) && (
+              <figcaption class="muestra-pie">
+                {s.pie_foto && <span>{s.pie_foto}</span>}
+                {datos.length > 0 && (
+                  <ul class="datos-cortos">
+                    {datos.map((d) => <li>{d}</li>)}
+                  </ul>
+                )}
+              </figcaption>
+            )}
+          </figure>
+        ) : (
+          datos.length > 0 && (
+            <ul class="datos-cortos menuda portada-datos">
+              {datos.map((d) => <li>{d}</li>)}
+            </ul>
+          )
+        )}
+      </div>
+    </section>
+  )
+}

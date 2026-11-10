@@ -1,0 +1,29 @@
+---
+// Titular de sección: antetítulo en letra menuda (caja normal) + título en Syne + entrada. Sin campos, no pinta nada.
+// `cabeza`: título a la izquierda (7 columnas) y la entrada a la derecha (5) en escritorio, con las bases alineadas.
+// El título se ajusta a su columna (unidades de contenedor): una palabra de 20 letras cabe sin partirse.
+interface Props { titulo?: string; antetitulo?: string; texto?: string; class?: string; nivel?: 1 | 2; cabeza?: boolean }
+const { titulo, antetitulo, texto, class: clase = '', nivel = 2, cabeza = false } = Astro.props;
+const H = nivel === 1 ? 'h1' : 'h2';
+---
+
+{
+  (titulo || antetitulo || texto) &&
+    (cabeza ? (
+      <div class:list={['cabeza', clase]}>
+        {(titulo || antetitulo) && (
+          <div class="cabeza-titulo">
+            {antetitulo && <p class="antetitulo">{antetitulo}</p>}
+            {titulo && <H class="titulo-seccion">{titulo}</H>}
+          </div>
+        )}
+        {texto && <p class="entrada">{texto}</p>}
+      </div>
+    ) : (
+      <div class:list={['titular', clase]}>
+        {antetitulo && <p class="antetitulo">{antetitulo}</p>}
+        {titulo && <H class="titulo-seccion">{titulo}</H>}
+        {texto && <p class="entrada">{texto}</p>}
+      </div>
+    ))
+}

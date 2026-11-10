@@ -1,0 +1,96 @@
+---
+// Formulario sin servidor: si hay email en site.yaml abre el programa de correo (mailto) con los campos en el cuerpo.
+// Si no hay email, se queda como muestra y lo avisa. Para un envío real, cambia `action` por el de tu proveedor.
+// Modelos: `presupuesto` (nombre, teléfono, aparato —opciones: los `dispositivo` de las reparaciones—, marca y
+// modelo, qué le pasa —opciones: los nombres de las reparaciones— y mensaje) y `contacto` (nombre, email o
+// teléfono, mensaje). Sin reparaciones en site.yaml, aparato y avería son campos de texto libre.
+// `prefijo` hace únicos los ids cuando hay varios formularios en la misma página.
+import { site, dispositivos, averias } from '../../data/site';
+interface Props { boton?: string; class?: string; asunto?: string; modelo?: 'presupuesto' | 'contacto'; prefijo?: string }
+const {
+  boton = 'Enviar',
+  class: clase = '',
+  modelo = 'contacto',
+  asunto = modelo === 'presupuesto' ? `Presupuesto desde la web de ${site.nombre}` : `Consulta desde la web de ${site.nombre}`,
+  prefijo = 'f',
+} = Astro.props;
+const email = site.contacto.email;
+const accion = email ? `mailto:${email}?subject=${encodeURIComponent(asunto)}` : '';
+const aparatos = modelo === 'presupuesto' ? dispositivos() : [];
+const fallos = modelo === 'presupuesto' ? averias() : [];
+const id = (campo: string) => `${prefijo}-${campo}`;
+---
+
+<form class:list={['formulario', clase]} action={accion || undefined} method="post" enctype="text/plain">
+  {
+    modelo === 'contacto' ? (
+      <>
+        <div class="campo">
+          <label for={id('nombre')}>Nombre</label>
+          <input id={id('nombre')} name="nombre" type="text" autocomplete="name" required />
+        </div>
+        <div class="campo">
+          <label for={id('contacto')}>Email o teléfono</label>
+          <input id={id('contacto')} name="contacto" type="text" autocomplete="email" required />
+        </div>
+      </>
+    ) : (
+      <>
+        <div class="campo-doble">
+          <div class="campo">
+            <label for={id('nombre')}>Nombre</label>
+            <input id={id('nombre')} name="nombre" type="text" autocomplete="name" required />
+          </div>
+          <div class="campo">
+            <label for={id('telefono')}>Teléfono o WhatsApp</label>
+            <input id={id('telefono')} name="telefono" type="tel" autocomplete="tel" inputmode="tel" required />
+          </div>
+        </div>
+        <div class="campo-doble">
+          <div class="campo">
+            <label for={id('aparato')}>Aparato</label>
+            {aparatos.length > 0 ? (
+              <select id={id('aparato')} name="aparato">
+                {aparatos.map((t) => <option value={t}>{t}</option>)}
+                <option value="Otro">Otro</option>
+              </select>
+            ) : (
+              <input id={id('aparato')} name="aparato" type="text" />
+            )}
+          </div>
+          <div class="campo">
+            <label for={id('modelo')}>Marca y modelo</label>
+            <input id={id('modelo')} name="modelo" type="text" autocomplete="off" />
+          </div>
+        </div>
+        <div class="campo">
+          <label for={id('averia')}>¿Qué le pasa?</label>
+          {fallos.length > 0 ? (
+            <select id={id('averia')} name="averia">
+              {fallos.map((t) => <option value={t}>{t}</option>)}
+              <option value="Otra avería">Otra avería</option>
+            </select>
+          ) : (
+            <input id={id('averia')} name="averia" type="text" />
+          )}
+        </div>
+      </>
+    )
+  }
+  <div class="campo">
+    <label for={id('mensaje')}>{modelo === 'presupuesto' ? 'Cuéntanos algo más (opcional)' : 'Mensaje'}</label>
+    <textarea id={id('mensaje')} name="mensaje" rows={modelo === 'presupuesto' ? 3 : 5} required={modelo === 'contacto'}></textarea>
+  </div>
+  <label class="campo-check">
+    <input type="checkbox" name="privacidad" required />
+    <span>He leído el <a href="/aviso-legal">aviso legal y la política de privacidad</a>.</span>
+  </label>
+  <button type="submit" class="btn">{boton}</button>
+  <p class="formulario-aviso">
+    {
+      email
+        ? 'Al enviar se abre tu programa de correo con el mensaje listo.'
+        : 'Formulario de muestra: todavía no envía mensajes. Usa el teléfono o el email de contacto.'
+    }
+  </p>
+</form>

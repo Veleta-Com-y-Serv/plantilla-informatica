@@ -1,0 +1,57 @@
+---
+// Dónde vamos: fila partida. A la izquierda (5 columnas), antetítulo, título, `texto` y los pueblos
+// (`items: [{titulo, texto, imagen?}]`) como índice en Syne con filetes; a la derecha (7), la `imagen` en una tarjeta.
+// Las zonas con `texto` tienen su página (/zonas/<slug>/) y enlazan a ella con una flecha al borde; las demás son solo
+// el nombre. `titulo_pagina` y `texto_pagina` (con {zona}) son el título y la entrada de cada página de zona.
+// Sin `imagen`, el índice va a dos columnas a todo el ancho.
+import { seccion } from '../../data/site';
+import { altSeccion } from '../../lib/seo';
+import { enlaceDe } from '../../lib/paginas';
+import Imagen from '../ui/Imagen.astro';
+import Icono from '../ui/Icono.astro';
+interface Props { id: string }
+const { id } = Astro.props;
+const s = seccion(id);
+const zonas = s ? s.items.filter((it) => it.titulo) : [];
+---
+
+{
+  s && (
+    <section id={id} class="banda banda--papel">
+      <div class:list={['contenedor', 'partida', 'partida--texto-primero', 'zonas-rejilla', { 'zonas-rejilla--sin-foto': !s.imagen }]}>
+        <div class="titular">
+          {s.antetitulo && <p class="antetitulo">{s.antetitulo}</p>}
+          {s.titulo && <h2 class="titulo-seccion">{s.titulo}</h2>}
+          {s.texto && <p class="entrada">{s.texto}</p>}
+          {zonas.length > 0 && (
+            <ul class="zonas-lista">
+              {zonas.map((z) => {
+                const url = enlaceDe(z);
+                return (
+                  <li>
+                    {url ? (
+                      <a class="zona" href={url}>
+                        <span class="zona-nombre">{z.titulo}</span>
+                        <Icono nombre="flecha" tam={20} />
+                      </a>
+                    ) : (
+                      <span class="zona zona--sin-pagina">{z.titulo}</span>
+                    )}
+                  </li>
+                );
+              })}
+            </ul>
+          )}
+          {s.cta?.url && <div class="botones"><a class="btn-sec" href={s.cta.url}>{s.cta.texto}</a></div>}
+        </div>
+        {s.imagen && (
+          <figure class="carta muestra zonas-foto">
+            <div class="foto">
+              <Imagen src={s.imagen} alt={altSeccion(s)} ancho={1200} alto={900} />
+            </div>
+          </figure>
+        )}
+      </div>
+    </section>
+  )
+}

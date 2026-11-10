@@ -1,0 +1,42 @@
+---
+// Preguntas frecuentes: a la izquierda (4 columnas, fija al bajar en escritorio) el titular y los enlaces a WhatsApp y
+// al teléfono; a la derecha (8), `preguntas: [{pregunta, respuesta}]` como filas plegables (details/summary) bajo un
+// filete de tinta de 2 px. Sin preguntas no se pinta. Es lo que citan los asistentes de IA (JSON-LD FAQPage).
+import { seccion, site, tel, whatsapp } from '../../data/site';
+interface Props { id: string }
+const { id } = Astro.props;
+const s = seccion(id);
+const preguntas = s ? s.preguntas : [];
+const c = site.contacto;
+---
+
+{
+  s && preguntas.length > 0 && (
+    <section id={id} class="banda banda--papel">
+      <div class="contenedor preguntas-rejilla">
+        <div class="titular">
+          {s.antetitulo && <p class="antetitulo">{s.antetitulo}</p>}
+          {s.titulo && <h2 class="titulo-seccion">{s.titulo}</h2>}
+          {s.texto && <p class="entrada">{s.texto}</p>}
+          {(c.whatsapp || c.telefono) && (
+            <div class="botones preguntas-vias">
+              {c.whatsapp && <a class="btn-sec" href={whatsapp(c.whatsapp)} rel="noopener" target="_blank">Escribir por WhatsApp</a>}
+              {!c.whatsapp && c.telefono && <a class="btn-sec" href={tel(c.telefono)}>Llamar al {c.telefono}</a>}
+            </div>
+          )}
+        </div>
+        <div class="faqs">
+          {preguntas.map((p) => (
+            <details class="faq">
+              <summary>
+                <span>{p.pregunta}</span>
+                <span class="faq-signo" aria-hidden="true" />
+              </summary>
+              {p.respuesta && <p class="faq-respuesta">{p.respuesta}</p>}
+            </details>
+          ))}
+        </div>
+      </div>
+    </section>
+  )
+}

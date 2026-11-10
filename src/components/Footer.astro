@@ -1,0 +1,112 @@
+---
+// Pie «muestrario»: banda de tinta (color primario) a todo el ancho con el nombre muy grande en Syne (mástil), el
+// eslogan y cuatro columnas sobre un filete de 2 px: horario, dónde estamos, contacto y menú con redes. Todo de
+// site.yaml → contacto, redes y menu. «Web creada con NoExpertise» se muestra si site.yaml → marca_pie no es false.
+// En móvil, barra fija abajo con «Llamar» y «WhatsApp» (sin WhatsApp: «Presupuesto», que lleva al contacto).
+import { site, tel, mapa, whatsapp, seccion } from '../data/site';
+import { enlace } from '../lib/multipagina';
+import Icono from './ui/Icono.astro';
+interface Props { variante?: string }
+const { variante = 'muestrario' } = Astro.props;
+const c = site.contacto;
+const redes = Object.entries(site.redes).filter(([, url]) => url);
+const anio = new Date().getFullYear();
+const escribir = c.whatsapp
+  ? { texto: 'WhatsApp', url: whatsapp(c.whatsapp, `Hola, quiero consultar una reparación en ${site.nombre}`), fuera: true, icono: 'whatsapp' }
+  : seccion('contacto')
+    ? { texto: 'Presupuesto', url: enlace('/#contacto'), fuera: false, icono: 'correo' }
+    : null;
+---
+
+<footer class={`pie pie--${variante}`}>
+  <div class="contenedor">
+    <div class="pie-mastil">
+      <p class="pie-gigante">{site.nombre}</p>
+    </div>
+    {site.eslogan && <p class="pie-eslogan">{site.eslogan}</p>}
+    <div class="pie-columnas">
+      {
+        c.horario && (
+          <div>
+            <p class="pie-titulo">Horario</p>
+            <p class="pie-dato">{c.horario}</p>
+          </div>
+        )
+      }
+      {
+        c.direccion && (
+          <div>
+            <p class="pie-titulo">Dónde estamos</p>
+            <p class="pie-dato">
+              <a href={mapa(c.direccion)} rel="noopener" target="_blank">{c.direccion}</a>
+            </p>
+          </div>
+        )
+      }
+      {
+        (c.telefono || c.email || c.whatsapp) && (
+          <div>
+            <p class="pie-titulo">Contacto</p>
+            <ul class="pie-lista pie-dato">
+              {c.telefono && <li><a class="codigo" href={tel(c.telefono)}>{c.telefono}</a></li>}
+              {c.whatsapp && <li><a href={whatsapp(c.whatsapp)} rel="noopener" target="_blank">WhatsApp</a></li>}
+              {c.email && <li class="break-words"><a href={`mailto:${c.email}`}>{c.email}</a></li>}
+            </ul>
+          </div>
+        )
+      }
+      {
+        (site.menu.length > 0 || redes.length > 0) && (
+          <div>
+            {site.menu.length > 0 && (
+              <>
+                <p class="pie-titulo">En esta web</p>
+                <ul class="pie-lista">
+                  {site.menu.map((e) => <li><a href={e.url}>{e.texto}</a></li>)}
+                </ul>
+              </>
+            )}
+            {redes.length > 0 && (
+              <ul class="pie-redes">
+                {redes.map(([red, url]) => (
+                  <li>
+                    <a href={url} rel="noopener" target="_blank" aria-label={red}>
+                      <Icono nombre={red} tam={20} />
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            )}
+          </div>
+        )
+      }
+    </div>
+  </div>
+  <div class="contenedor pie-legal">
+    <span>© {anio} {site.nombre}</span>
+    <a href="/aviso-legal">Aviso legal y privacidad</a>
+    {
+      site.marca_pie && (
+        <span class="pie-noexpertise">
+          Web creada con <a href="https://noexpertise.com" rel="noopener">NoExpertise</a>
+        </span>
+      )
+    }
+  </div>
+  {
+    (c.telefono || escribir) && (
+      <nav class="barra-movil" aria-label="Llamar o escribir">
+        {c.telefono && (
+          <a class="btn-sec" href={tel(c.telefono)}>
+            <Icono nombre="telefono" tam={18} /> Llamar
+          </a>
+        )}
+        {escribir && (
+          <a class="btn" href={escribir.url} {...(escribir.fuera && { rel: 'noopener', target: '_blank' })}>
+            <Icono nombre={escribir.icono} tam={18} /> {escribir.texto}
+          </a>
+        )}
+      </nav>
+    )
+  }
+</footer>

@@ -1,0 +1,180 @@
+---
+// Ficha de un elemento con `detalle` (src/lib/paginas.ts, listas de src/data/fichas.ts): /reparaciones/<slug>/.
+// Diseño «muestrario»: migas en letra menuda y cabecera partida (equipo, título en Syne, texto, la ficha técnica con
+// plazo y precio en monoespaciada y los botones de presupuesto y llamar; a la derecha, la foto en una tarjeta);
+// banda de papel oscuro con el `detalle` en párrafos y, al lado, una tarjeta con todos los datos y el presupuesto;
+// fotos de `imagenes`; y otras reparaciones con página como filas de la hoja de especificaciones.
+import Base from '../../layouts/Base.astro';
+import Imagen from '../../components/ui/Imagen.astro';
+import { seccion, site, tel, whatsapp } from '../../data/site';
+import { fichas, relacionadas, resumen } from '../../lib/paginas';
+import type { Ficha } from '../../lib/paginas';
+import { altGaleria, jsonLdFicha, jsonLdMigas, urlBase } from '../../lib/seo';
+import { enlace, rutaDeSeccion } from '../../lib/multipagina';
+
+export function getStaticPaths() {
+  return fichas().map((f) => ({ params: { coleccion: f.def.ruta, slug: f.slug }, props: { f } }));
+}
+
+interface Props { f: Ficha }
+const { f } = Astro.props;
+const base = urlBase(Astro.site);
+const nombreSeccion = String(f.seccion.antetitulo || f.seccion.titulo || f.def.nombre).trim();
+const migas = [
+  { nombre: 'Inicio', ruta: '/' },
+  { nombre: nombreSeccion, ruta: rutaDeSeccion(f.idSeccion) },
+  { nombre: f.titulo, ruta: f.url },
+];
+const c = site.contacto;
+const wa = whatsapp(c.whatsapp, `Hola, quiero presupuesto para: ${f.titulo}`);
+const presupuesto = wa
+  ? { texto: 'Pedir presupuesto por WhatsApp', url: wa, fuera: true }
+  : seccion('contacto')
+    ? { texto: site.boton_cabecera?.texto || 'Pedir presupuesto', url: enlace('/#contacto'), fuera: false }
+    : c.telefono
+      ? { texto: `Llamar al ${c.telefono}`, url: tel(c.telefono), fuera: false }
+      : null;
+const valor = (k: string) => f.datos.find((d) => d.clave === k)?.valor ?? '';
+const equipo = valor('equipo');
+const plazo = valor('plazo');
+const datos = f.datos.filter((d) => !['precio', 'plazo', 'equipo'].includes(d.clave));
+const otras = relacionadas(f, 4);
+const descripcion = resumen(f.texto || f.detalle[0] || '');
+const nota = String(seccion(f.idSeccion)?.nota ?? '').trim();
+---
+
+<Base titulo={f.titulo} descripcion={descripcion} imagen={f.imagen} ld={[jsonLdMigas(base, migas), jsonLdFicha(base, f)]}>
+  <section class="banda banda--papel ficha-portada">
+    <div class:list={['contenedor', { partida: f.imagen }]}>
+      <div class="portada-titular">
+        <nav aria-label="Migas de pan" class="migas menuda">
+          <ol>
+            {migas.map((m, i) => (
+              <li>{i < migas.length - 1 ? <a href={m.ruta}>{m.nombre}</a> : <span aria-current="page">{m.nombre}</span>}</li>
+            ))}
+          </ol>
+        </nav>
+        {equipo && <p class="antetitulo">{equipo}</p>}
+        <h1 class="portada-titulo ficha-titulo">{f.titulo}</h1>
+        {f.texto && <p class="portada-parrafo ficha-entrada">{f.texto}</p>}
+        {(plazo || f.precio) && (
+          <dl class="ficha-tecnica">
+            {plazo && <div><dt>Plazo</dt><dd class="codigo spec-plazo">{plazo}</dd></div>}
+            {f.precio && <div><dt>Precio</dt><dd class="codigo">{f.precio}</dd></div>}
+          </dl>
+        )}
+        <div class="botones">
+          {presupuesto && (
+            <a class="btn" href={presupuesto.url} {...(presupuesto.fuera && { rel: 'noopener', target: '_blank' })}>{presupuesto.texto}</a>
+          )}
+          {presupuesto?.fuera && c.telefono && <a class="btn-sec" href={tel(c.telefono)}>Llamar al {c.telefono}</a>}
+        </div>
+      </div>
+      {f.imagen && (
+        <figure class="carta muestra">
+          <div class="foto">
+            <Imagen src={f.imagen} alt={f.titulo} ancho={1200} alto={900} prioridad />
+          </div>
+        </figure>
+      )}
+    </div>
+  </section>
+
+  <section class="banda banda--clara">
+    <div class="contenedor ficha-cuerpo">
+      <article class="ficha-detalle">
+        {f.detalle.map((p) => <p>{p}</p>)}
+      </article>
+      <aside class="carta ficha-lado">
+        <h2 class="ficha-lado-titulo">{f.titulo}</h2>
+        {(equipo || plazo || f.precio || datos.length > 0) && (
+          <table class="ficha-datos">
+            <caption class="sr-only">Datos de la reparación</caption>
+            <tbody>
+              {equipo && <tr><th scope="row">Equipo</th><td>{equipo}</td></tr>}
+              {plazo && <tr><th scope="row">Plazo</th><td class="codigo">{plazo}</td></tr>}
+              {f.precio && <tr><th scope="row">Precio</th><td class="codigo">{f.precio}</td></tr>}
+              {datos.map((d) => <tr><th scope="row">{d.etiqueta}</th><td>{d.valor}</td></tr>)}
+            </tbody>
+          </table>
+        )}
+        {presupuesto && (
+          <div class="botones">
+            <a class="btn" href={presupuesto.url} {...(presupuesto.fuera && { rel: 'noopener', target: '_blank' })}>{presupuesto.texto}</a>
+          </div>
+        )}
+        {nota && <p class="nota menuda">{nota}</p>}
+      </aside>
+    </div>
+  </section>
+
+  {f.imagenes.length > 0 && (
+    <section class="banda banda--papel" aria-label={`Fotos de ${f.titulo}`}>
+      <div class="contenedor">
+        <ul class="ficha-fotos">
+          {f.imagenes.map((src, i) => (
+            <li class="carta muestra"><div class="foto"><Imagen src={src} alt={`${f.titulo}: ${altGaleria(i).toLowerCase()}`} ancho={1000} alto={750} /></div></li>
+          ))}
+        </ul>
+      </div>
+    </section>
+  )}
+
+  {otras.length > 0 && (
+    <section class="banda banda--papel">
+      <div class="contenedor">
+        <div class="cabeza">
+          <div class="cabeza-titulo"><h2 class="titulo-seccion">Otras reparaciones</h2></div>
+          <p class="entrada"><a class="btn-sec" href={rutaDeSeccion(f.idSeccion)}>Ver la lista completa</a></p>
+        </div>
+        <table class="spec">
+          <caption class="sr-only">Otras reparaciones</caption>
+          <thead><tr><th scope="col">Reparación</th><th scope="col">Plazo</th><th scope="col">Precio</th></tr></thead>
+          <tbody>
+            {otras.map((o) => (
+              <tr>
+                <th scope="row">
+                  <a class="spec-nombre" href={o.url}>{o.titulo}</a>
+                  {o.texto && <span class="spec-texto">{o.texto}</span>}
+                </th>
+                <td class="spec-plazo codigo">{o.datos.find((d) => d.clave === 'plazo')?.valor ?? ''}</td>
+                <td class="spec-precio codigo">{o.precio}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </section>
+  )}
+</Base>
+
+<style>
+  .ficha-portada { padding-top: clamp(1.25rem, 1rem + 2vw, 2.5rem); }
+  .ficha-titulo { font-size: min(4.5rem, 8.3cqi); }
+  .ficha-entrada { margin-top: 1.25rem; }
+  .ficha-tecnica { display: flex; flex-wrap: wrap; gap: 0; margin-top: 1.75rem; border-top: 2px solid var(--tinta); border-bottom: 1px solid var(--filete); }
+  .ficha-tecnica > div { padding: .8rem 2rem .8rem 0; margin-right: 2rem; border-right: 1px solid var(--filete); }
+  .ficha-tecnica > div:last-child { border-right: 0; margin-right: 0; }
+  .ficha-tecnica dt { font-size: .85rem; font-weight: 500; color: var(--apagado); }
+  .ficha-tecnica dd { margin-top: .2rem; font-size: 1.1rem; color: var(--tinta); }
+  .ficha-tecnica dd.spec-plazo { color: var(--acento-legible); }
+  .ficha-cuerpo { display: grid; gap: 3rem; }
+  .ficha-detalle { display: grid; gap: 1.2rem; max-width: 42rem; font-size: 1.08rem; line-height: 1.7; }
+  .ficha-detalle p:first-child { font-size: clamp(1.2rem, 1.05rem + .5vw, 1.45rem); line-height: 1.5; font-weight: 500; color: var(--tinta); }
+  .ficha-lado { padding: 1.5rem; }
+  .ficha-lado-titulo { font-size: 1.5rem; padding-bottom: 1rem; border-bottom: 2px solid var(--tinta); }
+  .ficha-datos { width: 100%; border-collapse: collapse; }
+  .ficha-datos tr { border-bottom: 1px solid var(--filete); }
+  .ficha-datos th { padding: .8rem 1rem .8rem 0; text-align: left; font-size: .9rem; font-weight: 500; color: var(--apagado); vertical-align: baseline; }
+  .ficha-datos td { padding-block: .8rem; text-align: right; color: var(--tinta); vertical-align: baseline; }
+  .ficha-lado .botones .btn { width: 100%; white-space: normal; }
+  .ficha-lado .nota { margin-top: 1rem; }
+  .ficha-fotos { display: grid; gap: 2rem; grid-template-columns: repeat(auto-fit, minmax(min(100%, 20rem), 1fr)); }
+  .ficha-fotos .foto { aspect-ratio: 4 / 3; }
+  @media (min-width: 40rem) { .ficha-lado { padding: 2rem; } }
+  @media (min-width: 60rem) {
+    .ficha-portada .partida { grid-template-columns: minmax(0, 6fr) minmax(0, 6fr); }
+    .ficha-cuerpo { grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); gap: 5rem; align-items: start; }
+    .ficha-lado { position: sticky; top: calc(var(--alto-cabecera) + 2rem); }
+  }
+</style>

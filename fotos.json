@@ -1,0 +1,57 @@
+[
+  {
+    "fichero": "fotos/hero.jpg",
+    "aspecto": "16:9",
+    "prompt": "Fotografía horizontal panorámica 16:9, vista cenital exacta de un banco de trabajo de servicio técnico informático, con todos los objetos en una franja horizontal en el centro y arriba y abajo solo la alfombrilla antiestática gris oscuro lisa. En la franja, de izquierda a derecha: destornilladores de precisión alineados, un portátil girado en horizontal y boca abajo sin la tapa inferior con la placa base, el ventilador y la batería a la vista, un módulo de memoria RAM y un disco SSD. Luz de día uniforme y suave, color natural, nitidez alta, sin texto legible, sin logotipos, sin personas."
+  },
+  {
+    "fichero": "fotos/taller.jpg",
+    "aspecto": "4:3",
+    "prompt": "Fotografía horizontal 4:3, primer plano desde arriba de dos manos con guantes de nitrilo negros insertando un módulo de memoria RAM en la ranura de la placa base de un ordenador de sobremesa abierto, con el disipador y algunos cables a la vista. Luz de día lateral suave, color natural, enfoque nítido en la ranura, sin texto legible, sin logotipos, sin caras."
+  },
+  {
+    "fichero": "fotos/reparacion-pantalla.jpg",
+    "aspecto": "4:3",
+    "prompt": "Fotografía horizontal 4:3, vista cenital de un portátil abierto sobre una mesa de taller con el marco de la pantalla desmontado y un panel de pantalla nuevo apoyado al lado sobre una lámina de espuma, una ventosa y una púa de plástico junto a él, sobre alfombrilla antiestática gris. Luz de día uniforme, color natural, pantalla apagada, sin texto, sin logotipos, sin personas."
+  },
+  {
+    "fichero": "fotos/reparacion-datos.jpg",
+    "aspecto": "4:3",
+    "prompt": "Fotografía horizontal 4:3, vista cenital de varios discos duros de 3,5 y 2,5 pulgadas y discos SSD sin etiquetas, ordenados en fila sobre una alfombrilla antiestática gris; uno de los discos duros está abierto y deja ver el plato plateado y el brazo del cabezal; al lado, una memoria USB y una tarjeta de memoria. Luz de día suave y uniforme, color natural, sin texto legible, sin logotipos, sin personas."
+  },
+  {
+    "fichero": "fotos/reparacion-limpieza.jpg",
+    "aspecto": "4:3",
+    "prompt": "Fotografía horizontal 4:3, primer plano cenital del interior de un ordenador de sobremesa tumbado: el disipador y el ventilador del procesador retirados y apoyados al lado, el procesador con pasta térmica gris recién aplicada, un pincel antiestático y una jeringa de pasta térmica junto a la placa base. Luz de día uniforme, color natural, sin texto legible, sin logotipos, sin personas."
+  },
+  {
+    "fichero": "fotos/equipo-torre.jpg",
+    "aspecto": "4:3",
+    "prompt": "Fotografía horizontal 4:3 de un ordenador de sobremesa con caja negra mate y panel lateral de cristal, visto de frente y un poco en diagonal, sobre una mesa de madera clara contra una pared blanco roto; dentro, cables ordenados y ventiladores sin luces de colores. Luz de día suave de ventana, color natural, sin pantallas con texto, sin logotipos, sin personas."
+  },
+  {
+    "fichero": "fotos/equipo-portatil.jpg",
+    "aspecto": "1:1",
+    "prompt": "Fotografía cuadrada 1:1, vista cenital de un portátil gris plata cerrado sobre una mesa de madera clara, junto a su cargador con el cable enrollado y un ratón inalámbrico. Luz de día suave, color natural, sin texto, sin logotipos visibles, sin personas."
+  },
+  {
+    "fichero": "fotos/equipo-tpv.jpg",
+    "aspecto": "1:1",
+    "prompt": "Fotografía cuadrada 1:1 de un terminal punto de venta con pantalla táctil apagada, un cajón portamonedas debajo, una impresora de tickets pequeña y un lector de códigos de barras sobre el mostrador de madera de una tienda de barrio, encuadre frontal un poco desde arriba. Luz de día, color natural, pantalla negra sin texto, sin logotipos, sin personas."
+  },
+  {
+    "fichero": "fotos/equipo-impresora.jpg",
+    "aspecto": "1:1",
+    "prompt": "Fotografía cuadrada 1:1 de una impresora multifunción de oficina blanca y gris vista de frente y un poco desde arriba, con una hoja en blanco saliendo por la bandeja, sobre un mueble de madera clara contra una pared blanco roto. Luz de día, color natural, sin texto, sin logotipos, sin personas."
+  },
+  {
+    "fichero": "fotos/zonas.jpg",
+    "aspecto": "4:3",
+    "prompt": "Fotografía horizontal 4:3 de un punto de acceso wifi blanco y redondo recién instalado en el techo de una casa de pueblo aragonesa con vigas de madera y paredes de piedra encaladas, visto desde abajo en diagonal, con una escalera de aluminio desenfocada al fondo. Luz de día por una ventana, color natural, sin texto, sin logotipos, sin personas."
+  },
+  {
+    "fichero": "fotos/tienda.jpg",
+    "aspecto": "4:3",
+    "prompt": "Fotografía horizontal 4:3 del interior de una pequeña tienda de informática de barrio: mostrador de madera clara con un portátil abierto de espaldas a la cámara, estanterías detrás con discos duros, cables, ratones y teclados ordenados en cajas sin rótulos. Luz de día que entra por el escaparate, vista frontal a la altura de los ojos, color natural, sin texto legible, sin logotipos, sin personas."
+  }
+]

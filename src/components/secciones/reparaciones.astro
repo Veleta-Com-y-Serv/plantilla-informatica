@@ -1,0 +1,92 @@
+---
+// Reparaciones: la hoja de especificaciones de la tienda. Cabeza partida (título y entrada) y, si hay dos o más
+// equipos distintos, un filtro de casillas cuadradas unidas (Todo, Ordenador, Portátil…; JavaScript pequeño en línea:
+// sin él se ve la lista entera). Tabla a todo el ancho bajo un filete de tinta de 2 px:
+// `reparaciones: [{nombre, texto, equipo, plazo, precio, detalle?, imagen?}]` → nombre (enlace a su página si tiene
+// `detalle`) y texto, equipo, plazo en monoespaciada óxido y precio en monoespaciada. Las columnas sin ningún dato no
+// salen. En móvil cada fila se apila con sus etiquetas. Debajo, `nota` y `cta`. Sin reparaciones, solo la cabeza.
+import { seccion, texto } from '../../data/site';
+import { enlaceDe } from '../../lib/paginas';
+import Titular from '../ui/Titular.astro';
+interface Props { id: string }
+const { id } = Astro.props;
+const s = seccion(id);
+const filas = s ? s.reparaciones : [];
+const equipos = [...new Set(filas.map((r) => texto(r.equipo)).filter(Boolean))];
+const conEquipo = equipos.length > 0;
+const conPlazo = filas.some((r) => texto(r.plazo));
+const conPrecio = filas.some((r) => texto(r.precio));
+---
+
+{
+  s && (
+    <section id={id} class="banda banda--papel">
+      <div class="contenedor">
+        <Titular cabeza antetitulo={s.antetitulo} titulo={s.titulo} texto={s.texto} />
+        {filas.length > 0 && (
+          <div data-spec>
+            {equipos.length > 1 && (
+              <div class="filtros" role="group" aria-label="Filtrar por equipo" hidden data-filtros>
+                <button type="button" class="filtro" aria-pressed="true" data-equipo="">Todo</button>
+                {equipos.map((e) => (
+                  <button type="button" class="filtro" aria-pressed="false" data-equipo={e}>{e}</button>
+                ))}
+              </div>
+            )}
+            <table class="spec">
+              <caption class="sr-only">{s.titulo || 'Reparaciones'}</caption>
+              <thead>
+                <tr>
+                  <th scope="col">Reparación</th>
+                  {conEquipo && <th scope="col">Equipo</th>}
+                  {conPlazo && <th scope="col">Plazo</th>}
+                  {conPrecio && <th scope="col">Precio</th>}
+                </tr>
+              </thead>
+              <tbody>
+                {filas.map((r) => {
+                  const url = enlaceDe(r);
+                  return (
+                    <tr data-equipo={texto(r.equipo)}>
+                      <th scope="row">
+                        {url ? <a class="spec-nombre" href={url}>{r.nombre}</a> : <span class="spec-nombre">{r.nombre}</span>}
+                        {texto(r.texto) && <span class="spec-texto">{texto(r.texto)}</span>}
+                      </th>
+                      {conEquipo && <td class="spec-equipo">{texto(r.equipo) && <span class="spec-etiqueta">Equipo</span>}{texto(r.equipo)}</td>}
+                      {conPlazo && <td class="spec-plazo codigo">{texto(r.plazo) && <span class="spec-etiqueta">Plazo</span>}{texto(r.plazo)}</td>}
+                      {conPrecio && <td class="spec-precio codigo">{texto(r.precio)}</td>}
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          </div>
+        )}
+        {(s.nota || s.cta?.url) && (
+          <div class="spec-pie">
+            {s.nota && <p class="nota menuda">{s.nota}</p>}
+            {s.cta?.url && <a class="btn-sec" href={s.cta.url}>{s.cta.texto}</a>}
+          </div>
+        )}
+      </div>
+    </section>
+  )
+}
+
+<script is:inline>
+  document.querySelectorAll('[data-spec]').forEach(function (bloque) {
+    var filtros = bloque.querySelector('[data-filtros]');
+    if (!filtros || bloque.dataset.listo) return;
+    bloque.dataset.listo = '1';
+    filtros.hidden = false;
+    var botones = filtros.querySelectorAll('button');
+    var filas = bloque.querySelectorAll('tbody tr');
+    botones.forEach(function (b) {
+      b.addEventListener('click', function () {
+        var equipo = b.getAttribute('data-equipo');
+        botones.forEach(function (x) { x.setAttribute('aria-pressed', x === b ? 'true' : 'false'); });
+        filas.forEach(function (f) { f.hidden = !!equipo && f.getAttribute('data-equipo') !== equipo; });
+      });
+    });
+  });
+</script>

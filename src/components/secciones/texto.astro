@@ -1,0 +1,57 @@
+---
+// Apartado de texto genérico (apartados nuevos del cliente: `tipo: texto`). Banda de papel a todo el ancho.
+// Con `imagen`: fila partida con la foto en una tarjeta a la izquierda. Sin imagen: título a la izquierda y párrafos
+// a la derecha. Opcionales: `items: [{titulo, texto}]` como filas con filetes y `cta`.
+import { seccion, parrafos } from '../../data/site';
+import { altSeccion } from '../../lib/seo';
+import Imagen from '../ui/Imagen.astro';
+interface Props { id: string }
+const s = seccion(Astro.props.id);
+const items = s ? s.items.filter((it) => it && it.titulo) : [];
+const ps = parrafos(s?.texto);
+---
+
+{
+  s && (
+    <section id={Astro.props.id} class="banda banda--papel">
+      <div class:list={['contenedor', s.imagen ? 'partida' : 'texto-rejilla']}>
+        {s.imagen && (
+          <figure class="carta muestra">
+            <div class="foto">
+              <Imagen src={s.imagen} alt={altSeccion(s)} ancho={1200} alto={900} />
+            </div>
+          </figure>
+        )}
+        <div class="titular">
+          {s.antetitulo && <p class="antetitulo">{s.antetitulo}</p>}
+          {s.titulo && <h2 class="titulo-seccion">{s.titulo}</h2>}
+          {s.imagen && ps.length > 0 && (
+            <div class="parrafos">
+              {ps.map((p) => <p>{p}</p>)}
+            </div>
+          )}
+        </div>
+        {(!s.imagen && ps.length > 0) || items.length > 0 || s.cta?.url ? (
+          <div class="titular">
+            {!s.imagen && ps.length > 0 && (
+              <div class="parrafos">
+                {ps.map((p) => <p>{p}</p>)}
+              </div>
+            )}
+            {items.length > 0 && (
+              <ul class="reglas">
+                {items.map((it) => (
+                  <li>
+                    <span class="reglas-titulo">{it.titulo}</span>
+                    {it.texto && <span class="reglas-texto">{it.texto}</span>}
+                  </li>
+                ))}
+              </ul>
+            )}
+            {s.cta?.url && <div class="botones"><a class="btn" href={s.cta.url}>{s.cta.texto}</a></div>}
+          </div>
+        ) : null}
+      </div>
+    </section>
+  )
+}

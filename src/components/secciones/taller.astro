@@ -1,0 +1,50 @@
+---
+// El taller: fila partida. A la izquierda (7 columnas), `imagen` en una tarjeta con su `pie_foto` debajo; a la derecha
+// (5), antetítulo, título, `texto` en párrafos y `items: [{titulo, texto}]` como filas con filetes (las garantías).
+// Sin `imagen`, el texto ocupa la fila y las filas van a dos columnas.
+import { seccion, parrafos } from '../../data/site';
+import { altSeccion } from '../../lib/seo';
+import Imagen from '../ui/Imagen.astro';
+interface Props { id: string }
+const { id } = Astro.props;
+const s = seccion(id);
+const items = s ? s.items.filter((it) => it.titulo) : [];
+const ps = parrafos(s?.texto);
+---
+
+{
+  s && (
+    <section id={id} class="banda banda--papel">
+      <div class:list={['contenedor', { partida: s.imagen }]}>
+        {s.imagen && (
+          <figure class="carta muestra">
+            <div class="foto">
+              <Imagen src={s.imagen} alt={s.pie_foto || altSeccion(s)} ancho={1200} alto={900} />
+            </div>
+            {s.pie_foto && <figcaption class="muestra-pie"><span>{s.pie_foto}</span></figcaption>}
+          </figure>
+        )}
+        <div class="titular">
+          {s.antetitulo && <p class="antetitulo">{s.antetitulo}</p>}
+          {s.titulo && <h2 class="titulo-seccion">{s.titulo}</h2>}
+          {ps.length > 0 && (
+            <div class="parrafos">
+              {ps.map((p, i) => <p class={i === 0 ? 'entrada' : undefined}>{p}</p>)}
+            </div>
+          )}
+          {items.length > 0 && (
+            <ul class="reglas">
+              {items.map((it) => (
+                <li>
+                  <span class="reglas-titulo">{it.titulo}</span>
+                  {it.texto && <span class="reglas-texto">{it.texto}</span>}
+                </li>
+              ))}
+            </ul>
+          )}
+          {s.cta?.url && <div class="botones"><a class="btn-sec" href={s.cta.url}>{s.cta.texto}</a></div>}
+        </div>
+      </div>
+    </section>
+  )
+}

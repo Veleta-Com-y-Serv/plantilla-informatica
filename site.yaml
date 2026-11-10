@@ -1,0 +1,241 @@
+# Contenido de la web. Es lo único que rellena la plataforma NoExpertise.
+# Una sola página: el menú apunta a anclas (#id-de-sección).
+# Las secciones se muestran en el orden de este fichero. Para ocultar una: activa: false.
+# Apartado nuevo: un id propio (es su ancla, /#id) con `tipo:` = el diseño de otra sección o `texto`.
+# Listas planas: nunca una lista dentro de un elemento de lista. Precios y cifras, siempre entre comillas.
+nombre: Tecla Informática
+eslogan: Reparación de ordenadores, portátiles e impresoras en Alcañiz. Mantenimiento informático para comercios y oficinas.
+sector: informatica
+logo: ""          # ruta a una imagen en public/ (p. ej. /logo.svg). Vacío = el nombre en Syne.
+colores:
+  primario: "#2b2825"   # banda de tinta (empresas) y pie; la letra encima se calcula sola
+  acento: "#b3472a"     # óxido: la señal (plazos, fila marcada, foco, subrayado al pasar)
+  fondo: "#f4f1ea"      # papel blanco roto
+  texto: "#1a1815"      # tinta: la letra, los filetes y los botones
+contacto:
+  telefono: "978 000 000"
+  email: hola@teclainformatica.es
+  direccion: Avenida de Aragón 18, 44600 Alcañiz (Teruel)
+  horario: "Lunes a viernes, de 9:30 a 13:30 y de 16:30 a 20:00. Sábados, de 10:00 a 13:30."
+  whatsapp: "+34 600 000 000"
+redes:
+  instagram: https://www.instagram.com/
+  facebook: https://www.facebook.com/
+  linkedin: ""
+menu:
+  - { texto: Reparaciones, url: "/#reparaciones" }
+  - { texto: Empresas, url: "/#empresas" }
+  - { texto: Equipos, url: "/#equipos" }
+  - { texto: Dónde vamos, url: "/#zonas" }
+  - { texto: Contacto, url: "/#contacto" }
+boton_cabecera: { texto: Pedir presupuesto, url: "/#contacto" }
+seo:
+  titulo: Tecla Informática · Servicio técnico informático en Alcañiz
+  descripcion: "Reparación de ordenadores, portátiles e impresoras en Alcañiz. Mantenimiento para empresas, redes, copias de seguridad y recuperación de datos."
+  tipo: ComputerStore
+marca_pie: true
+
+secciones:
+  hero:
+    activa: true
+    antetitulo: Servicio técnico en Alcañiz
+    titulo: Arreglamos tu ordenador, con precio cerrado
+    texto: "Diagnóstico gratis en 24 horas y presupuesto antes de tocar nada. Para casas, comercios y oficinas del Bajo Aragón."
+    imagen: /fotos/hero.jpg
+    pie_foto: "El banco de trabajo de la tienda, en la Avenida de Aragón"
+    cta: { texto: Llamar a la tienda, url: "tel:+34978000000" }
+    cta_secundario: { texto: Pedir presupuesto, url: "/#contacto" }
+    items:
+      - { titulo: Diagnóstico gratis }
+      - { titulo: Recogida a domicilio }
+      - { titulo: Seis meses de garantía }
+
+  reparaciones:
+    activa: true
+    antetitulo: Reparaciones
+    titulo: Lo que arreglamos cada semana
+    texto: "Precios orientativos con IVA. Te damos el precio de tu equipo antes de empezar."
+    nota: "Pieza, mano de obra y garantía incluidas. Si no tiene arreglo, no pagas el diagnóstico."
+    cta: { texto: Pide precio para tu equipo, url: "/#contacto" }
+    reparaciones:
+      - nombre: Ordenador lento
+        texto: "Disco SSD, más memoria y el sistema limpio de programas que sobran."
+        equipo: Ordenador
+        plazo: "24 horas"
+        precio: "desde 59 €"
+        detalle: |
+          Cuando un ordenador tarda minutos en arrancar o se queda pensando al abrir el correo, casi nunca hace falta comprar otro. Lo normal es que tenga un disco duro de los de antes y poca memoria, y las dos cosas se cambian por mucho menos de lo que cuesta un equipo nuevo.
+
+          Primero lo miramos gratis para ver el estado del disco, de la memoria y del sistema. Después te decimos qué merece la pena: cambiar el disco por uno SSD, ampliar la memoria si tu equipo lo admite o quitar los programas que arrancan sin que lo sepas. Pasamos tus archivos al disco nuevo para que lo encuentres todo donde lo dejaste.
+
+          Aprovechamos para limpiar el polvo de dentro y revisar el ventilador. Te lo devolvemos en un día, con garantía por escrito, y te explicamos sin tecnicismos qué hemos hecho. Si lo mejor es no tocar nada, también te lo decimos.
+      - nombre: Cambio de pantalla de portátil
+        texto: "Panel nuevo compatible con tu modelo, montado y probado."
+        equipo: Portátil
+        plazo: "2 a 4 días"
+        precio: "desde 89 €"
+        imagen: /fotos/reparacion-pantalla.jpg
+        detalle: |
+          Una pantalla rota, con rayas o que se ve negra no significa que el portátil esté perdido. Buscamos el panel exacto de tu modelo, lo montamos con cuidado para no forzar las bisagras ni el cable de vídeo y lo probamos con brillo, colores y cámara antes de devolvértelo.
+
+          Si tenemos la pieza en la tienda, lo tienes en el día. Si hay que pedirla, te damos la fecha al hacer el presupuesto y te avisamos por WhatsApp en cuanto llega. Tus archivos no se tocan: no hace falta que nos des la contraseña.
+
+          A veces el problema no es la pantalla sino el cable o la tarjeta de vídeo. Por eso primero lo diagnosticamos gratis y te decimos qué tiene de verdad. El precio que te damos es cerrado, con la pieza, la mano de obra y la garantía.
+      - nombre: Recuperación de datos
+        texto: "Fotos y documentos de discos, memorias USB y tarjetas que no abren."
+        equipo: Datos
+        plazo: "Según el daño"
+        precio: "desde 60 €"
+        imagen: /fotos/reparacion-datos.jpg
+        detalle: |
+          Si tu disco ya no aparece, hace ruidos o el ordenador te pide formatear la memoria USB, lo primero es no seguir intentándolo. Cada vez que se enchufa un disco dañado se pueden perder más archivos. Apágalo y tráenoslo tal cual.
+
+          Hacemos una copia del disco antes de trabajar con él, para no tocar nunca el original, y desde esa copia recuperamos fotos, documentos, correos y contabilidad. Te enseñamos la lista de lo que se puede salvar antes de cobrarte nada y te lo entregamos en un disco nuevo o en una memoria.
+
+          Si el disco tiene una avería física que necesita sala blanca, te lo decimos con honestidad y te damos opciones. Tus datos son tuyos: no los miramos más allá de comprobar que se abren y los borramos de nuestros equipos al terminar.
+      - nombre: Limpieza y pasta térmica
+        texto: "Para el ruido y el calor: ventiladores limpios y pasta nueva."
+        equipo: Ordenador
+        plazo: "En el día"
+        precio: "desde 35 €"
+        imagen: /fotos/reparacion-limpieza.jpg
+        detalle: |
+          Un ordenador que suena como un avión, que se calienta mucho o que se apaga solo suele tener el ventilador lleno de polvo y la pasta térmica seca. Es una de las reparaciones más agradecidas: vuelve a ir fresco y en silencio, y le alargas la vida.
+
+          Lo abrimos, limpiamos con aire y pincel el ventilador, el disipador y las rejillas, cambiamos la pasta térmica del procesador y comprobamos las temperaturas con el equipo trabajando. En los portátiles revisamos también las bisagras y la batería, que con el calor se estropean antes.
+
+          Lo tienes listo en el día. Si vemos algo más, te llamamos antes de hacer nada.
+      - { nombre: "Virus y ventanas que saltan solas", texto: "Limpieza del sistema y antivirus configurado.", equipo: Ordenador, plazo: "En el día", precio: "39 €" }
+      - { nombre: "Instalación de Windows con tus archivos", texto: "Sistema nuevo, tus programas y tus documentos donde estaban.", equipo: Ordenador, plazo: "24 horas", precio: "45 €" }
+      - { nombre: "Teclado o bisagras de portátil", texto: "Teclado nuevo de tu idioma o bisagras y carcasa reforzadas.", equipo: Portátil, plazo: "2 a 4 días", precio: "desde 49 €" }
+      - { nombre: "Impresora que atasca o no imprime", texto: "Limpieza de cabezales, rodillos y configuración en red.", equipo: Impresora, plazo: "En el día", precio: "desde 30 €" }
+      - { nombre: "Wifi que no llega a toda la casa", texto: "Puntos de acceso y cableado para que llegue a cada habitación.", equipo: Red y wifi, plazo: "Con cita", precio: "desde 60 €" }
+      - { nombre: "Cámaras de vigilancia", texto: "Instalación, grabador y las cámaras en tu móvil.", equipo: Red y wifi, plazo: "Con cita", precio: "Consultar" }
+      - { nombre: "Asistencia remota", texto: "Te conectamos desde la tienda y lo resolvemos en el momento.", equipo: Remoto, plazo: "En el momento", precio: "20 € la media hora" }
+
+  taller:
+    activa: true
+    antetitulo: El taller
+    titulo: Lo reparamos aquí, en la tienda
+    texto: "Tu equipo no sale de Alcañiz. Lo abrimos en nuestro banco, con las piezas a mano y sin intermediarios."
+    imagen: /fotos/taller.jpg
+    pie_foto: "Cambio de memoria en la placa de un ordenador de sobremesa"
+    items:
+      - { titulo: Diagnóstico sin coste, texto: "Te decimos qué le pasa antes de que decidas nada." }
+      - { titulo: "Tus archivos, a salvo", texto: "Copia antes de tocar el disco y nada de mirar lo que no hace falta." }
+      - { titulo: Seis meses de garantía, texto: "En piezas y mano de obra, por escrito en la factura." }
+      - { titulo: Equipo de préstamo, texto: "Para empresas y autónomos, si la reparación pasa de un día." }
+
+  empresas:
+    activa: true
+    antetitulo: Empresas y autónomos
+    titulo: Tu informática, de eso nos ocupamos
+    texto: "Llevamos los ordenadores, la red y las copias de comercios, despachos y oficinas por una cuota al mes."
+    nota: "Sin permanencia. La primera revisión de tu instalación no cuesta nada."
+    cta: { texto: Pedir una revisión, url: "/#contacto" }
+    items:
+      - { titulo: Redes y wifi, texto: "Cableado, routers y puntos de acceso que no se caen.", icono: red }
+      - { titulo: Copias de seguridad, texto: "Diarias, en la nube y en la oficina, comprobadas.", icono: nube }
+      - { titulo: Antivirus y correo, texto: "Antivirus gestionado y correo con tu dominio.", icono: escudo }
+      - { titulo: Servidores, texto: "Carpetas compartidas, permisos y servidor al día.", icono: servidor }
+      - { titulo: TPV e impresoras, texto: "Cajas, lectores, impresoras de tickets y etiquetas.", icono: tpv }
+      - { titulo: Asistencia remota, texto: "Te conectamos en minutos sin movernos de la tienda.", icono: remoto }
+    planes:
+      - { nombre: Autónomo, precio: "29 €", periodo: al mes, texto: "Para un despacho o una tienda con uno o dos ordenadores.", incluye: "Hasta 2 equipos; Antivirus gestionado; Copia de seguridad diaria; Asistencia remota en horario de tienda", destacado: false }
+      - { nombre: Pyme, precio: "79 €", periodo: al mes, texto: "Para oficinas de hasta diez puestos con red y servidor.", incluye: "Hasta 10 equipos; Copias en la nube y en la oficina; Correo con tu dominio; Red, wifi y servidor; Una visita al mes", destacado: true }
+      - { nombre: A medida, precio: "Consultar", periodo: "", texto: "Más puestos, varias sedes o TPV en varios locales.", incluye: "Contrato por horas o por equipos; Revisión de la instalación sin coste; Tiempo de respuesta por escrito", destacado: false }
+
+  equipos:
+    activa: true
+    antetitulo: Equipos y montaje
+    titulo: Ordenadores montados a tu medida
+    texto: "Te preguntamos para qué lo quieres y lo montamos con lo justo. Te lo llevamos instalado, con tus archivos."
+    cta: { texto: Pedir presupuesto de un equipo, url: "/#contacto" }
+    equipos:
+      - nombre: Ordenador de oficina a medida
+        texto: "Silencioso, rápido y preparado para durar. Instalado con tus programas."
+        categoria: Montaje a medida
+        precio: "desde 499 €"
+        imagen: /fotos/equipo-torre.jpg
+        caracteristicas: "Procesador de última generación; 16 GB de memoria; Disco SSD de 1 TB; Windows y tus programas instalados"
+      - nombre: Portátil para estudiar y teletrabajar
+        texto: "Ligero, con buena batería y la pantalla mate para muchas horas."
+        categoria: Portátiles
+        precio: "desde 549 €"
+        imagen: /fotos/equipo-portatil.jpg
+        caracteristicas: "14 pulgadas; 16 GB de memoria; Configurado y listo para usar"
+      - nombre: TPV completo para comercio
+        texto: "Pantalla táctil, cajón, impresora de tickets y el programa de caja."
+        categoria: TPV
+        precio: "Consultar"
+        imagen: /fotos/equipo-tpv.jpg
+        caracteristicas: "Instalación en tu local; Formación al personal"
+      - nombre: Impresora multifunción instalada
+        texto: "Imprime, escanea y copia desde todos los equipos y móviles de la casa."
+        categoria: Impresoras
+        precio: "desde 129 €"
+        imagen: /fotos/equipo-impresora.jpg
+        caracteristicas: "Conectada por wifi; Instalada en cada equipo"
+
+  proceso:
+    activa: true
+    antetitulo: Cómo trabajamos
+    titulo: De la avería a tu mesa, en cuatro pasos
+    texto: "Nunca reparamos nada que no hayas aprobado antes."
+    items:
+      - { titulo: Tráelo o vamos a por él, texto: "Pásate sin cita o te lo recogemos en casa o en la oficina." }
+      - { titulo: Diagnóstico gratis, texto: "Lo miramos en 24 horas y te llamamos para contarte qué tiene." }
+      - { titulo: Presupuesto cerrado, texto: "Precio y plazo antes de tocar nada. Si no te convence, no pagas." }
+      - { titulo: Reparado y probado, texto: "Te lo devolvemos limpio, probado y con garantía por escrito." }
+
+  zonas:
+    activa: true
+    antetitulo: Dónde vamos
+    titulo: Alcañiz y el Bajo Aragón
+    texto: "Recogemos y entregamos en casa y en la oficina. Lo que se puede resolver a distancia lo hacemos por asistencia remota."
+    imagen: /fotos/zonas.jpg
+    titulo_pagina: "Servicio técnico informático en {zona}"
+    texto_pagina: "Reparamos ordenadores, portátiles e impresoras en {zona} y llevamos la informática de sus comercios y oficinas. Recogida a domicilio y asistencia remota."
+    items:
+      - titulo: Alcañiz
+        texto: "Aquí está la tienda, en la Avenida de Aragón, y aquí hacemos la mayor parte del trabajo. Si estás en Alcañiz, puedes traer el ordenador sin cita o te lo recogemos en casa el mismo día. Llevamos la informática de muchos comercios del centro y de oficinas del polígono: redes, copias de seguridad, TPV e impresoras. Para lo que no necesita abrir el equipo, como un programa que no arranca o una impresora que no aparece, te ayudamos por asistencia remota en unos minutos."
+      - titulo: Calanda
+        texto: "Calanda está muy cerca de la tienda y vamos a menudo. Recogemos ordenadores y portátiles a domicilio y te los devolvemos reparados, con el precio cerrado de antemano. Atendemos también a comercios, bodegas y almacenes de fruta que necesitan que su red, su TPV o sus copias de seguridad funcionen todos los días, sobre todo en temporada."
+      - titulo: Caspe
+        texto: "En Caspe trabajamos sobre todo con despachos, gestorías y tiendas que nos confían el mantenimiento por cuota mensual. Vamos a revisar la instalación sin coste, te decimos qué mejoraríamos y lo dejamos por escrito. Las averías de casa también las atendemos: te recogemos el equipo y te lo devolvemos en cuanto está listo, sin que tengas que venir a Alcañiz."
+      - titulo: Valderrobres
+        texto: "Para Valderrobres y los pueblos del Matarraña combinamos visitas programadas con asistencia remota, porque muchas cosas se resuelven sin movernos. Instalamos wifi en casas de piedra de muros gruesos, donde la señal no pasa de una habitación a otra, y cámaras de vigilancia en casas de campo y alojamientos rurales que se ven desde el móvil."
+      - { titulo: Castelserás }
+      - { titulo: Alcorisa }
+      - { titulo: Andorra }
+      - { titulo: Híjar }
+
+  opiniones:
+    activa: true
+    antetitulo: Opiniones
+    titulo: Lo que nos dicen al recoger el equipo
+    testimonios:
+      - { texto: "El portátil de mi hija no arrancaba en plena época de exámenes. Me dijeron el precio por la mañana y por la tarde ya lo tenía, con todos sus apuntes.", autor: Pilar M., nota: "Cambio de disco, Alcañiz" }
+      - { texto: "Nos llevan los ordenadores y la caja de la tienda. Cuando algo falla les escribo por WhatsApp y enseguida están conectados.", autor: Jorge A., nota: "Mantenimiento, Calanda" }
+      - { texto: "Recuperaron las fotos de un disco que daba por perdido. Me enseñaron lo que se podía salvar antes de cobrarme nada.", autor: Mercedes L., nota: "Recuperación de datos, Caspe" }
+
+  preguntas:
+    activa: true
+    antetitulo: Preguntas frecuentes
+    titulo: Lo que nos preguntáis en el mostrador
+    texto: "¿No encuentras la tuya? Escríbenos por WhatsApp y te contestamos enseguida."
+    preguntas:
+      - { pregunta: "¿Cuánto cuesta el diagnóstico?", respuesta: "Nada. Miramos el equipo gratis y te decimos qué le pasa y cuánto cuesta arreglarlo. Si decides no repararlo, te lo llevas tal cual." }
+      - { pregunta: "¿Voy a perder mis archivos?", respuesta: "No, salvo que el disco esté averiado, y en ese caso te lo decimos antes. Si hay que reinstalar el sistema, hacemos una copia de tus archivos y te los dejamos donde estaban." }
+      - { pregunta: "¿Venís a casa o a la oficina?", respuesta: "Sí. Recogemos y entregamos en Alcañiz y en los pueblos del Bajo Aragón, y vamos a instalar redes, cámaras, TPV e impresoras. Muchas cosas las resolvemos además por asistencia remota." }
+      - { pregunta: "¿Cuánto tarda una reparación?", respuesta: "La mayoría, entre uno y tres días. Si hay que pedir una pieza, te damos la fecha al hacer el presupuesto y te avisamos por WhatsApp en cuanto está listo." }
+      - { pregunta: "¿Tenéis mantenimiento sin permanencia?", respuesta: "Sí. Las cuotas para empresas y autónomos son mensuales y puedes darte de baja cuando quieras. La primera revisión de tu instalación no cuesta nada." }
+
+  contacto:
+    activa: true
+    antetitulo: Contacto
+    titulo: Pásate por la tienda o escríbenos
+    texto: "En el centro de Alcañiz. Cuéntanos qué le pasa a tu equipo y te damos precio y plazo."
+    imagen: /fotos/tienda.jpg
+    titulo_formulario: Cuéntanos qué le pasa
+    boton_formulario: Pedir presupuesto

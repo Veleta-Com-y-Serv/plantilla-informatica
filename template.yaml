@@ -1,0 +1,120 @@
+# Metadatos de la plantilla para el catálogo de NoExpertise.
+id: informatica
+nombre: Informática y servicio técnico
+descripcion: "Web de ficha técnica para tiendas de informática: reparaciones con plazo y precio, mantenimiento y equipos."
+sectores:
+  - { id: informatica, nombre: Informática }
+  - { id: servicio-tecnico, nombre: Servicio técnico }
+  - { id: tienda-informatica, nombre: Tienda de informática }
+  - { id: mantenimiento-informatico, nombre: Mantenimiento informático }
+secciones:
+  - { id: hero, nombre: Portada }
+  - { id: reparaciones, nombre: Reparaciones }
+  - { id: taller, nombre: El taller }
+  - { id: empresas, nombre: Empresas y mantenimiento }
+  - { id: equipos, nombre: Equipos a medida }
+  - { id: proceso, nombre: Cómo trabajamos }
+  - { id: zonas, nombre: Dónde vamos }
+  - { id: opiniones, nombre: Opiniones }
+  - { id: preguntas, nombre: Preguntas frecuentes }
+  - { id: contacto, nombre: Contacto }
+estilo: terrazzo
+plan_minimo: gratis
+version: 1.0.0
+base: astrowind
+demo_url: https://demo-plantilla-informatica.noexpertise.com
+activa: true
+orden: 750
+
+# Páginas propias (docs/plantillas.md § Fichas por elemento y páginas por zona). Espejo en src/data/fichas.ts.
+# Cada reparación con `detalle` tiene su página en /reparaciones/<slug>/ y cada zona con `texto`, en /zonas/<slug>/.
+fichas:
+  - { lista: reparaciones, campo: reparaciones, ruta: reparaciones, nombre: Reparación, tipo: Service }
+zonas:
+  ruta: zonas
+
+# Varias páginas (docs/plantillas.md § Varias páginas): reparto recomendado al activar «Varias páginas».
+# Inicio se queda con la portada y lo que no esté en ninguna página (aquí, el taller y las opiniones).
+paginas:
+  - { ruta: reparaciones, titulo: Reparaciones, secciones: "reparaciones; proceso" }
+  - { ruta: empresas, titulo: Empresas, secciones: "empresas" }
+  - { ruta: equipos, titulo: Equipos, secciones: "equipos" }
+  - { ruta: contacto, titulo: Contacto, secciones: "zonas; preguntas; contacto" }
+
+# Asistente de puesta en marcha (NoExpertise): un paso por pantalla. Rutas del site sin índices;
+# tipos: texto y lista (la IA propone), datos, fotos, eleccion (colores y logo) y repaso.
+asistente:
+  - id: negocio
+    titulo: "Tu tienda"
+    pregunta: "¿Cómo se llama tu tienda o servicio técnico, dónde estáis y qué es lo que más arregláis?"
+    ayuda: "Por ejemplo: ordenadores y portátiles, impresoras, redes de oficina o recuperación de datos, y en qué pueblo o barrio tenéis la tienda."
+    tipo: texto
+    campos: [nombre, eslogan, seo.titulo, seo.descripcion, secciones.hero.antetitulo, secciones.hero.titulo, secciones.hero.texto]
+  - id: contacto
+    titulo: "Cómo te encuentran"
+    pregunta: "¿Dónde está la tienda, qué horario tenéis y cómo os pueden llamar o escribir?"
+    ayuda: "Solo lo que quieras que vean tus clientes. Si contestáis por WhatsApp, ponlo: saldrá un botón para escribiros desde el móvil."
+    tipo: datos
+    campos: [contacto.telefono, contacto.whatsapp, contacto.email, contacto.direccion, contacto.horario, redes.instagram, redes.facebook]
+  - id: reparaciones
+    titulo: "Tus reparaciones"
+    pregunta: "¿Qué reparaciones hacéis? Una por línea, con el equipo, el plazo y el precio si quieres."
+    ayuda: "Por ejemplo: «Ordenador lento, disco SSD y memoria, 24 horas, desde 59 €» o «Impresora que atasca, en el día, desde 30 €». Si prefieres no poner precios, no los digas."
+    tipo: lista
+    campos: [secciones.reparaciones.reparaciones]
+  - id: taller
+    titulo: "Vuestro taller"
+    pregunta: "¿Reparáis en la propia tienda? ¿Qué le prometéis a quien os deja su equipo?"
+    ayuda: "Por ejemplo: diagnóstico gratis, presupuesto antes de tocar nada, garantía por escrito, copia de sus archivos o equipo de préstamo."
+    tipo: texto
+    campos: [secciones.taller.titulo, secciones.taller.texto, secciones.taller.items]
+  - id: empresas
+    titulo: "Empresas y autónomos"
+    pregunta: "¿Lleváis la informática de comercios, despachos u oficinas? ¿De qué os ocupáis?"
+    ayuda: "Por ejemplo: redes y wifi, copias de seguridad, antivirus, correo con su dominio, servidores, TPV o asistencia remota. Si no trabajáis con empresas, salta este paso."
+    tipo: texto
+    campos: [secciones.empresas.titulo, secciones.empresas.texto, secciones.empresas.items, secciones.empresas.nota]
+  - id: planes
+    titulo: "Cuotas de mantenimiento"
+    pregunta: "¿Tenéis cuotas al mes para empresas? Una por línea, con lo que incluye y el precio si quieres."
+    ayuda: "Por ejemplo: «Autónomo, hasta 2 equipos, antivirus y copia diaria, 29 € al mes». Si lo hacéis siempre a medida, dilo así y lo ponemos como «Consultar»."
+    tipo: lista
+    campos: [secciones.empresas.planes]
+  - id: equipos
+    titulo: "Equipos que vendéis"
+    pregunta: "¿Vendéis o montáis ordenadores, portátiles, impresoras o TPV? Uno por línea, con el precio si quieres."
+    ayuda: "Por ejemplo: «Ordenador de oficina montado a medida, 16 GB y disco SSD, desde 499 €». Luego puedes poner la foto de cada uno."
+    tipo: lista
+    campos: [secciones.equipos.equipos]
+  - id: proceso
+    titulo: "Cómo trabajáis"
+    pregunta: "¿Qué pasa desde que alguien os trae el equipo hasta que se lo lleva arreglado?"
+    ayuda: "Por ejemplo: si recogéis a domicilio, cuánto tardáis en diagnosticar, cuándo dais el presupuesto y cómo avisáis de que está listo."
+    tipo: texto
+    campos: [secciones.proceso.titulo, secciones.proceso.texto, secciones.proceso.items]
+  - id: zonas
+    titulo: "Dónde vais"
+    pregunta: "¿A qué pueblos o barrios vais a recoger equipos o a instalar? Cuéntame también si dais asistencia remota."
+    ayuda: "Escribe los pueblos o barrios separados por comas. Luego puedes contar algo de cada uno en Contenido y tendrá su propia página."
+    tipo: texto
+    campos: [secciones.zonas.titulo, secciones.zonas.texto, secciones.zonas.items]
+  - id: preguntas
+    titulo: "Preguntas frecuentes"
+    pregunta: "¿Qué os preguntan más en el mostrador o por teléfono? Escribe cada pregunta y lo que respondéis."
+    ayuda: "Por ejemplo: cuánto cuesta el diagnóstico, si se pierden los archivos, cuánto tarda una reparación o si vais a domicilio."
+    tipo: lista
+    campos: [secciones.preguntas.preguntas]
+  - id: fotos
+    titulo: "Tus fotos"
+    pregunta: "Pon una foto de portada de tu banco de trabajo o de la tienda y, si quieres, las de tus equipos."
+    ayuda: "Sube las tuyas o elige una del banco. Las fotos de cerca, con luz de día y la mesa ordenada quedan mejor. Las que no cambies se quedan como están."
+    tipo: fotos
+    campos: [secciones.hero.imagen, secciones.taller.imagen, secciones.zonas.imagen, secciones.contacto.imagen]
+  - id: aspecto
+    titulo: "Colores y logo"
+    pregunta: "Elige los colores de tu web y, si tienes, tu logo."
+    tipo: eleccion
+    campos: [colores.primario, colores.acento, logo]
+  - id: repaso
+    titulo: "Repaso"
+    tipo: repaso
